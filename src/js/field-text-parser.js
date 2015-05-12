@@ -1,7 +1,7 @@
 define([
     'underscore',
     'peg',
-    'text!src/js/field-text.pegjs'
+    'text!fieldtext/js/field-text.pegjs'
 ], function(_, Peg, grammer) {
 
     var BooleanNode = function(operator, left, right) {
