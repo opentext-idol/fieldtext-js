@@ -97,8 +97,9 @@ define([
 
     var parser = Peg.buildParser(grammer);
 
-    return {
+    var module = {
         ExpressionNode: ExpressionNode,
+        Null: {toString: function() { return null }},
 
         parse: function(fieldText) {
             var tree = parser.parse(fieldText);
@@ -106,4 +107,22 @@ define([
             return convert(tree);
         }
     };
+
+    _.extend(module, _.reduce(['AND', 'OR', 'XOR', 'BEFORE', 'AFTER'], function(methods, operator) {
+        methods[operator] = function (left, right) {
+            if(left && right) {
+                return left[operator](right);
+            } else if(left) {
+                return left;
+            } else if(right) {
+                return right;
+            } else {
+                return module.Null
+            }
+        };
+
+        return methods;
+    }, {}));
+
+    return module;
 });
