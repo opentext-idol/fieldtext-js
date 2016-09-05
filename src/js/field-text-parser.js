@@ -2,7 +2,8 @@ define([
     'underscore',
     'peg',
     'text!fieldtext/js/field-text.pegjs'
-], function(_, Peg, grammer) {
+], function(_, Peg, grammar) {
+    "use strict";
 
     var BooleanNode = function(operator, left, right) {
         this.operator = operator;
@@ -54,12 +55,13 @@ define([
 
     _.each([ExpressionNode.prototype, BracketedNode.prototype, BooleanNode.prototype], function(nodeType) {
         _.extend(nodeType, _.reduce(['AND', 'OR', 'XOR', 'BEFORE', 'AFTER'], function(methods, operator) {
-            methods[operator] = function (right) {
+            methods[operator] = function(right) {
                 return new BooleanNode(operator, this, right);
             };
 
             return methods;
-    }, {}))});
+        }, {}));
+    });
 
     var NegativeNode = function(node) {
         var newNode = _.clone(node);
@@ -81,13 +83,13 @@ define([
     });
 
     var convert = function(node) {
-        if (node.boolean) {
+        if(node.boolean) {
             return BooleanNode.build(node);
         }
-        else if (node.negative) {
+        else if(node.negative) {
             return NegativeNode.build(node);
         }
-        else if (node.fieldtext) {
+        else if(node.fieldtext) {
             return BracketedNode.build(node);
         }
         else {
@@ -95,11 +97,15 @@ define([
         }
     };
 
-    var parser = Peg.buildParser(grammer);
+    var parser = Peg.generate(grammar);
 
     var module = {
         ExpressionNode: ExpressionNode,
-        Null: {toString: function() { return null }},
+        Null: {
+            toString: function() {
+                return null;
+            }
+        },
 
         parse: function(fieldText) {
             var tree = parser.parse(fieldText);
@@ -109,7 +115,7 @@ define([
     };
 
     _.extend(module, _.reduce(['AND', 'OR', 'XOR', 'BEFORE', 'AFTER'], function(methods, operator) {
-        methods[operator] = function (left, right) {
+        methods[operator] = function(left, right) {
             if(left && right) {
                 return left[operator](right);
             } else if(left) {

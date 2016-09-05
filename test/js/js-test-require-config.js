@@ -2,7 +2,6 @@
  * Copyright 2013-2015 Hewlett-Packard Development Company, L.P.
  * Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License.
  */
-
 define(function() {
     require.config({
         baseUrl: '.',
@@ -12,7 +11,7 @@ define(function() {
             'js-testing': 'bower_components/hp-autonomy-js-testing-utils/src/js',
             underscore: 'bower_components/underscore/underscore',
             text: 'bower_components/requirejs-text/text',
-            peg: 'bower_components/pegjs/peg-0.8.0',
+            peg: 'bower_components/pegjs/peg-0.10.0',
 
             //dir
             test: 'test/js',

@@ -2,18 +2,30 @@ define([
     'fieldtext/js/field-text-parser'
 ], function(parser) {
     describe('FieldText', function() {
-        describe('Parser', function () {
-            it('should match field text elements with field values', function () {
-                var fieldText = "MATCH{sodium cyanide,potassium chloride}:poisons:chemicals";
+        describe('Parser', function() {
+            describe('should match field text elements with field values', function() {
+                it('', function() {
+                    var fieldText = "MATCH{sodium cyanide,potassium chloride}:poisons:chemicals";
 
-                var result = parser.parse(fieldText);
+                    var result = parser.parse(fieldText);
 
-                expect(result.operator).toBe("MATCH");
-                expect(result.fields).toContain("poisons", "chemicals");
-                expect(result.values).toContain("sodium cyanide", "potassium chloride");
+                    expect(result.operator).toBe("MATCH");
+                    expect(result.fields).toContain("poisons", "chemicals");
+                    expect(result.values).toContain("sodium cyanide", "potassium chloride");
+                });
+
+                it(', even if fieldnames contain digits', function() {
+                    var fieldText = "MATCH{sodium cyanide,potassium chloride}:poisons1:chemicals2";
+
+                    var result = parser.parse(fieldText);
+
+                    expect(result.operator).toBe("MATCH");
+                    expect(result.fields).toContain("poisons1", "chemicals2");
+                    expect(result.values).toContain("sodium cyanide", "potassium chloride");
+                });
             });
 
-            it('should match field text elements without field values', function () {
+            it('should match field text elements without field values', function() {
                 var fieldText = "EXISTS{}:curry";
 
                 var result = parser.parse(fieldText);
@@ -23,7 +35,7 @@ define([
                 expect(result.values).toEqual([]);
             });
 
-            it('should match field text booleans', function () {
+            it('should match field text booleans', function() {
                 var fieldText = "MATCH{sodium cyanide,potassium chloride}:poisons:chemicals AND EXISTS{}:curry";
 
                 var result = parser.parse(fieldText);
@@ -33,7 +45,37 @@ define([
                 expect(result.right.operator).toBe("EXISTS");
             });
 
-            it('should match field text elements with field values which have underscores in them', function () {
+            it("should accept multiple spaces in place of a single space", function() {
+                var fieldText = "MATCH{sodium cyanide,potassium chloride}:poisons:chemicals  AND   EXISTS{}:curry";
+
+                var result = parser.parse(fieldText);
+
+                expect(result.operator).toBe("AND");
+                expect(result.left.operator).toBe("MATCH");
+                expect(result.right.operator).toBe("EXISTS");
+            });
+
+            it("should accept '+' in place of a space", function() {
+                var fieldText = "MATCH{sodium cyanide,potassium chloride}:poisons:chemicals AND+EXISTS{}:curry";
+
+                var result = parser.parse(fieldText);
+
+                expect(result.operator).toBe("AND");
+                expect(result.left.operator).toBe("MATCH");
+                expect(result.right.operator).toBe("EXISTS");
+            });
+
+            it("should allow arbitrary number of spaces around '+'", function() {
+                var fieldText = "MATCH{sodium cyanide,potassium chloride}:poisons:chemicals +  AND+ EXISTS{}:curry";
+
+                var result = parser.parse(fieldText);
+
+                expect(result.operator).toBe("AND");
+                expect(result.left.operator).toBe("MATCH");
+                expect(result.right.operator).toBe("EXISTS");
+            });
+
+            it('should match field text elements with field values which have underscores in them', function() {
                 var fieldText = "MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals";
 
                 var result = parser.parse(fieldText);
@@ -43,7 +85,7 @@ define([
                 expect(result.values).toContain("sodium cyanide", "potassium chloride");
             });
 
-            it('should match field text elements with values that have hyphens in them', function () {
+            it('should match field text elements with values that have hyphens in them', function() {
                 var fieldText = "MATCH{crazy-cats}:category";
 
                 var result = parser.parse(fieldText);
@@ -53,7 +95,7 @@ define([
                 expect(result.values).toContain("crazy-cats");
             });
 
-            it('should match field text elements with values that have asterisks in them', function () {
+            it('should match field text elements with values that have asterisks in them', function() {
                 var fieldText = "WILD{*town}:title";
 
                 var result = parser.parse(fieldText);
@@ -63,47 +105,47 @@ define([
                 expect(result.values).toContain("*town");
             });
 
-            it('should fail on trailing colons in the fields', function () {
+            it('should fail on trailing colons in the fields', function() {
                 var fieldText = "MATCH{sodium cyanide,potassium chloride}:poisons:chemicals:";
 
-                expect(function () {
+                expect(function() {
                     parser.parse(fieldText)
                 }).toThrow();
             });
 
-            it('should fail on trailing commas in the values', function () {
+            it('should fail on trailing commas in the values', function() {
                 var fieldText = "MATCH{sodium cyanide,potassium chloride,}:poisons:chemicals";
 
-                expect(function () {
+                expect(function() {
                     parser.parse(fieldText)
                 }).toThrow();
             });
 
-            it('should fail on an invalid field list', function () {
+            it('should fail on an empty field list', function() {
                 var fieldText = "MATCH{sodium cyanide,potassium chloride}:";
 
-                expect(function () {
+                expect(function() {
                     parser.parse(fieldText)
                 }).toThrow();
             });
 
-            it('should fail on an empty field list', function () {
+            it('should fail on an empty field list', function() {
                 var fieldText = "{sodium cyanide,potassium chloride}";
 
-                expect(function () {
+                expect(function() {
                     parser.parse(fieldText)
                 }).toThrow();
             });
 
-            it('should fail on an empty operator', function () {
+            it('should fail on an empty operator', function() {
                 var fieldText = "{sodium cyanide,potassium chloride}:poisons:chemicals";
 
-                expect(function () {
+                expect(function() {
                     parser.parse(fieldText)
                 }).toThrow();
             });
 
-            it('should force brackets to take precedence over NOT', function () {
+            it('should force brackets to take precedence over NOT', function() {
                 var fieldText = "NOT (A{av}:af AND B{bv}:bf)";
 
                 var result = parser.parse(fieldText);
@@ -114,7 +156,7 @@ define([
                 expect(result.fieldText.fieldText.right.operator).toBe("B");
             });
 
-            it('should force NOT to take precedence over AND', function () {
+            it('should force NOT to take precedence over AND', function() {
                 var fieldText = "NOT A{av}:af AND B{bv}:bf";
 
                 var result = parser.parse(fieldText);
@@ -126,7 +168,7 @@ define([
                 expect(result.right.operator).toBe("B");
             });
 
-            it('should expect boolean terms to be left associative', function () {
+            it('should expect boolean terms to be left-associative', function() {
                 var fieldText = "A{av}:af AND B{bv}:bf OR C{cv}:cf";
 
                 var result = parser.parse(fieldText);
@@ -148,7 +190,7 @@ define([
                 expect(result.right.operator).toBe("C");
             });
 
-            it('should expect AND operator on tree structures to return the AND of those tree structures.', function () {
+            it('should expect AND operator on tree structures to return the AND of those tree structures.', function() {
                 var fieldTextA = "(A{av}:af AND B{bv}:bf)";
                 var fieldTextB = "(C{cv}:cf AND D{dv}:df)";
 
@@ -159,7 +201,7 @@ define([
                 expect(resultC.toString()).toBe("(A{av}:af AND B{bv}:bf) AND (C{cv}:cf AND D{dv}:df)");
             });
 
-            it('should expect BEFORE operator on tree structures to return the BEFORE of those tree structures.', function () {
+            it('should expect BEFORE operator on tree structures to return the BEFORE of those tree structures.', function() {
                 var fieldTextA = "(NOT A{av}:af AND B{bv}:bf)";
                 var fieldTextB = "(C{cv}:cf AND NOT D{dv}:df)";
 
@@ -171,34 +213,34 @@ define([
             });
         });
 
-        describe('toString Method', function () {
-            it('should turn a single element tree to String', function () {
+        describe('toString Method', function() {
+            it('should turn a single element tree to String', function() {
                 var fieldText = "MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals";
                 var result = parser.parse(fieldText).toString();
 
                 expect(result).toBe("MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals");
             });
 
-            it('should turn some unbracketed element tree to String', function () {
+            it('should turn some unbracketed element tree to String', function() {
                 var fieldText = "MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals AND MATCH{thousand island}:oil_based:salad_dressings OR EXISTS{}:fried_turnips";
                 var result = parser.parse(fieldText).toString();
 
                 expect(result).toBe("MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals AND MATCH{thousand island}:oil_based:salad_dressings OR EXISTS{}:fried_turnips");
             });
 
-            it('should turn a bracketed element tree to String', function () {
+            it('should turn a bracketed element tree to String', function() {
                 var fieldText = "(MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals AND MATCH{thousand island}:oil_based:salad_dressings) OR EXISTS{}:fried_turnips";
                 var result = parser.parse(fieldText).toString();
 
                 expect(result).toBe("(MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals AND MATCH{thousand island}:oil_based:salad_dressings) OR EXISTS{}:fried_turnips");
             });
 
-            it('should turn not elements to String', function () {
+            it('should turn not elements to String', function() {
                 var fieldText = "NOT (MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals AND NOT MATCH{thousand island}:oil_based:salad_dressings) OR NOT EXISTS{}:fried_turnips";
                 var result = parser.parse(fieldText).toString();
 
                 expect(result).toBe("NOT (MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals AND NOT MATCH{thousand island}:oil_based:salad_dressings) OR NOT EXISTS{}:fried_turnips");
             });
         });
-    })
+    });
 });
