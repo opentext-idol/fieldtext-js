@@ -2,7 +2,8 @@
     "name": "hp-autonomy-fieldtext-js",
     "authors": [
         "Daniel Grayling <daniel.grayling@hpe.com>",
-        "Alex Scown <alex.scown@hpe.com>"
+        "Alex Scown <alex.scown@hpe.com>",
+        "Wojciech Kaluza <wojciech.kaluza@hpe.com>"
     ],
     "description": "Tools for the field text language.",
     "moduleType": [
@@ -20,7 +21,7 @@
         "underscore": "1.7.0",
         "requirejs": "2.1.22",
         "requirejs-text": "2.0.15",
-        "pegjs": "0.8.0"
+        "pegjs": "0.10.0"
     },
     "devDependencies": {
         "hp-autonomy-js-testing-utils": "2.2.0"
