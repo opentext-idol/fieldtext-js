@@ -1,8 +1,7 @@
 define([
     'underscore',
-    'peg',
-    'text!fieldtext/js/field-text.pegjs'
-], function(_, Peg, grammar) {
+    'fieldtext/js/parser'
+], function(_, parser) {
     "use strict";
 
     var BooleanNode = function(operator, left, right) {
@@ -96,8 +95,6 @@ define([
             return ExpressionNode.build(node);
         }
     };
-
-    var parser = Peg.generate(grammar);
 
     var module = {
         ExpressionNode: ExpressionNode,
