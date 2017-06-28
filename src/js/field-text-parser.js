@@ -164,11 +164,11 @@ define([
         };
 
         return methods;
-    }, {}));
-
-    module.NOT = function(left){
-        return left ? left.NOT() : module.Null;
-    }
+    }, {
+        NOT: function(left){
+            return left ? left.NOT() : module.Null;
+        }
+    }));
 
     return module;
 });

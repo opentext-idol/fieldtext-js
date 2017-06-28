@@ -271,10 +271,18 @@ define([
                 expect(result).toBe("MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals XOR MATCH{thousand island}:oil_based:salad_dressings");
             });
 
+            it('should work on the NOT operator', function() {
+                var node = new parser.ExpressionNode('MATCH', ['f1'], [1]);
+                var result = parser.NOT(node).toString();
+
+                expect(result).toBe("NOT MATCH{1}:f1");
+            });
+
             describe('should automatically add brackets', function() {
                 var one = new parser.ExpressionNode('MATCH', ['f1'], [1]);
                 var two = new parser.ExpressionNode('MATCH', ['f2'], [2]);
                 var three = new parser.ExpressionNode('MATCH', ['f3'], [3]);
+                var four = new parser.ExpressionNode('MATCH', ['f4'], [4]);
 
                 it(' to OR nested in an AND', function() {
                     var result = parser.AND(one,
@@ -304,6 +312,24 @@ define([
                     var result = parser.OR(one, two).NOT().toString();
 
                     expect(result).toBe('NOT (MATCH{1}:f1 OR MATCH{2}:f2)')
+                });
+
+                it(' to inner ORs within an AND', function() {
+                    var result = parser.AND(
+                        one.OR(two),
+                        three.OR(four)
+                    ).toString();
+
+                    expect(result).toBe('(MATCH{1}:f1 OR MATCH{2}:f2) AND (MATCH{3}:f3 OR MATCH{4}:f4)')
+                });
+
+                it(' to only the first inner OR within an AND', function() {
+                    var result = parser.AND(
+                        one.OR(two).OR(three),
+                        four
+                    ).toString();
+
+                    expect(result).toBe('(MATCH{1}:f1 OR MATCH{2}:f2 OR MATCH{3}:f3) AND MATCH{4}:f4')
                 });
 
                 it(' but not to AND nested in an OR', function() {
