@@ -264,6 +264,13 @@ define([
                 expect(result).toBe("NOT (MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals AND NOT MATCH{thousand island}:oil_based:salad_dressings) OR NOT EXISTS{}:fried_turnips");
             });
 
+            it('should turn EOR to XOR', function() {
+                var fieldText = "MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals EOR MATCH{thousand island}:oil_based:salad_dressings";
+                var result = parser.parse(fieldText).toString();
+
+                expect(result).toBe("MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals XOR MATCH{thousand island}:oil_based:salad_dressings");
+            });
+
             describe('should automatically add brackets', function() {
                 var one = new parser.ExpressionNode('MATCH', ['f1'], [1]);
                 var two = new parser.ExpressionNode('MATCH', ['f2'], [2]);

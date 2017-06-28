@@ -75,6 +75,7 @@ fieldExpression
 ORBoolean
     = 'OR'
     / 'XOR'
+    / 'EOR' { return 'XOR' }
 
 ANDBoolean
     = 'AND'
