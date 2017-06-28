@@ -1,47 +1,3 @@
-{
-    function leftAlign(left, boolean, right) {
-        if (right.boolean) {
-            return {
-                boolean: right.boolean,
-                left: leftAlign(left, boolean, right.left),
-                right: right.right
-            }
-        } else {
-            return {
-                boolean: boolean,
-                left: left,
-                right: right
-            }
-        }
-    }
-
-    function postProcess(input) {
-        var next = input.next;
-        delete input.next
-
-        if (!next) {
-            return input;
-        } else {
-            var boolean = next.boolean;
-            var right = next.right;
-
-            return leftAlign(input, boolean, right);
-        }
-    }
-
-    function postProcessNegation(input) {
-        var target = input;
-
-        while(target.left) {
-            target = target.left
-        }
-
-        target.negative = true;
-
-        return postProcess(input);
-    }
-}
-
 start
     = _ expr:ORExpression _ { return expr }
 
@@ -58,10 +14,10 @@ ORExpression
 
 ANDExpression
     = first:NOTExpression rest:( __ ANDBoolean __ NOTExpression)+    {
-             return rest.reduce(function(memo, curr) {
-                return {boolean: curr[1], left: memo, right: curr[3]};
-             }, first);
-         }
+         return rest.reduce(function(memo, curr) {
+            return {boolean: curr[1], left: memo, right: curr[3]};
+         }, first);
+     }
     / NOTExpression
 
 NOTExpression
