@@ -87,25 +87,28 @@ define([
         }
     });
 
-    _.each([ExpressionNode.prototype, BracketedNode.prototype, BooleanNode.prototype], function(nodeType) {
+    var NegativeNode = function(node) {
+        this.fieldText = node;
+    };
+
+    _.each([ExpressionNode.prototype, BracketedNode.prototype, BooleanNode.prototype, NegativeNode.prototype], function(nodeType) {
         _.extend(nodeType, _.reduce(['AND', 'OR', 'XOR', 'BEFORE', 'AFTER'], function(methods, operator) {
             methods[operator] = function(right) {
                 return new BooleanNode(operator, this, right);
             };
 
             return methods;
-        }, {}));
+        }, {
+            NOT: function(){
+                return new NegativeNode(this);
+            }
+        }));
     });
 
-    var NegativeNode = function(node) {
+    NegativeNode.build = function(node) {
         var newNode = _.clone(node);
         delete newNode.negative;
-
-        this.fieldText = convert(newNode);
-    };
-
-    NegativeNode.build = function(node) {
-        return new NegativeNode(node);
+        return new NegativeNode(convert(newNode));
     };
 
     _.extend(NegativeNode.prototype, {
@@ -162,6 +165,10 @@ define([
 
         return methods;
     }, {}));
+
+    module.NOT = function(left){
+        return left ? left.NOT() : module.Null;
+    }
 
     return module;
 });

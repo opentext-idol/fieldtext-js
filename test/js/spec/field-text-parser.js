@@ -300,12 +300,24 @@ define([
                     expect(result).toBe('MATCH{1}:f1 BEFORE (MATCH{2}:f2 XOR MATCH{3}:f3)')
                 });
 
+                it(' to OR nested in a NOT', function() {
+                    var result = parser.OR(one, two).NOT().toString();
+
+                    expect(result).toBe('NOT (MATCH{1}:f1 OR MATCH{2}:f2)')
+                });
+
                 it(' but not to AND nested in an OR', function() {
                     var result = parser.OR(one,
                         parser.AND(two, three)
                     ).toString();
 
                     expect(result).toBe('MATCH{1}:f1 OR MATCH{2}:f2 AND MATCH{3}:f3')
+                });
+
+                it(' but not to a NOT nested in an OR', function() {
+                    var result = parser.OR(one.NOT(), two).toString();
+
+                    expect(result).toBe('NOT MATCH{1}:f1 OR MATCH{2}:f2')
                 });
             });
         });
