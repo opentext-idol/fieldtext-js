@@ -23,6 +23,16 @@ define([
                     expect(result.fields).toContain("poisons1", "chemicals2");
                     expect(result.values).toContain("sodium cyanide", "potassium chloride");
                 });
+
+                it(', even if fieldnames contain slashes', function() {
+                    var fieldText = "MATCH{sodium cyanide,potassium chloride}:xml/path/poisons1:/other/path/chemicals2";
+
+                    var result = parser.parse(fieldText);
+
+                    expect(result.operator).toBe("MATCH");
+                    expect(result.fields).toContain("xml/path/poisons1", "/other/path/chemicals2");
+                    expect(result.values).toContain("sodium cyanide", "potassium chloride");
+                });
             });
 
             it('should match field text elements without field values', function() {
