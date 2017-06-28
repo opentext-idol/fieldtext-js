@@ -179,6 +179,18 @@ define([
             });
 
             it('should expect boolean terms to be left-associative', function() {
+                var fieldText = "A{av}:af AND B{bv}:bf AND C{cv}:cf";
+
+                var result = parser.parse(fieldText);
+
+                expect(result.operator).toBe("AND");
+                expect(result.left.operator).toBe("AND");
+                expect(result.left.left.operator).toBe("A");
+                expect(result.left.right.operator).toBe("B");
+                expect(result.right.operator).toBe("C");
+            });
+
+            it('should expect boolean terms to have AND binding with higher precedence than OR', function() {
                 var fieldText = "A{av}:af AND B{bv}:bf OR C{cv}:cf";
 
                 var result = parser.parse(fieldText);
@@ -193,11 +205,11 @@ define([
 
                 result = parser.parse(fieldText);
 
-                expect(result.operator).toBe("AND");
-                expect(result.left.operator).toBe("OR");
-                expect(result.left.left.operator).toBe("A");
-                expect(result.left.right.operator).toBe("B");
-                expect(result.right.operator).toBe("C");
+                expect(result.operator).toBe("OR");
+                expect(result.left.operator).toBe("A");
+                expect(result.right.operator).toBe("AND");
+                expect(result.right.left.operator).toBe("B");
+                expect(result.right.right.operator).toBe("C");
             });
 
             it('should expect AND operator on tree structures to return the AND of those tree structures.', function() {
