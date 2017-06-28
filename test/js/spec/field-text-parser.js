@@ -263,6 +263,44 @@ define([
 
                 expect(result).toBe("NOT (MATCH{sodium cyanide,potassium chloride}:generic_poisons:bad_chemicals AND NOT MATCH{thousand island}:oil_based:salad_dressings) OR NOT EXISTS{}:fried_turnips");
             });
+
+            describe('should automatically add brackets', function() {
+                var one = new parser.ExpressionNode('MATCH', ['f1'], [1]);
+                var two = new parser.ExpressionNode('MATCH', ['f2'], [2]);
+                var three = new parser.ExpressionNode('MATCH', ['f3'], [3]);
+
+                it(' to OR nested in an AND', function() {
+                    var result = parser.AND(one,
+                        parser.OR(two, three)
+                    ).toString();
+
+                    expect(result).toBe('MATCH{1}:f1 AND (MATCH{2}:f2 OR MATCH{3}:f3)')
+                });
+
+                it(' to XOR nested in an AND', function() {
+                    var result = parser.AND(one,
+                        parser.XOR(two, three)
+                    ).toString();
+
+                    expect(result).toBe('MATCH{1}:f1 AND (MATCH{2}:f2 XOR MATCH{3}:f3)')
+                });
+
+                it(' to XOR nested in a BEFORE', function() {
+                    var result = parser.BEFORE(one,
+                        parser.XOR(two, three)
+                    ).toString();
+
+                    expect(result).toBe('MATCH{1}:f1 BEFORE (MATCH{2}:f2 XOR MATCH{3}:f3)')
+                });
+
+                it(' but not to AND nested in an OR', function() {
+                    var result = parser.OR(one,
+                        parser.AND(two, three)
+                    ).toString();
+
+                    expect(result).toBe('MATCH{1}:f1 OR MATCH{2}:f2 AND MATCH{3}:f3')
+                });
+            });
         });
     });
 });

@@ -78,6 +78,8 @@ ORBoolean
 
 ANDBoolean
     = 'AND'
+    / 'WHEN'
+    / 'BEFORE'
 
 colonsv
     = ':' head:field tail:colonsv { return [head].concat(tail); }
