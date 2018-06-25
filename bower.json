@@ -1,9 +1,10 @@
 {
     "name": "hp-autonomy-fieldtext-js",
     "authors": [
-        "Daniel Grayling <daniel.grayling@hpe.com>",
-        "Alex Scown <alex.scown@hpe.com>",
-        "Wojciech Kaluza <wojciech.kaluza@hpe.com>"
+        "Tung Jin Chew <tungj-jin.chew@microfocus.com",
+        "Daniel Grayling",
+        "Alex Scown",
+        "Wojciech Kaluza"
     ],
     "description": "Tools for the field text language.",
     "moduleType": [
