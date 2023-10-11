@@ -16,11 +16,11 @@ define(function() {
         baseUrl: '.',
         paths: {
             // lib
-            jquery: 'bower_components/jquery/jquery',
-            'js-testing': 'bower_components/hp-autonomy-js-testing-utils/src/js',
-            underscore: 'bower_components/underscore/underscore',
-            text: 'bower_components/requirejs-text/text',
-            peg: 'bower_components/pegjs/peg-0.10.0',
+            jquery: 'node_modules/jquery/dist/jquery',
+            'js-testing': 'node_modules/hp-autonomy-js-testing-utils/src/js',
+            underscore: 'node_modules/underscore/underscore',
+            text: 'node_modules/requirejs-text/text',
+            peg: 'node_modules/pegjs/peg-0.10.0',
 
             //dir
             test: 'test/js',

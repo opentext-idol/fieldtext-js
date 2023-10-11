@@ -10,7 +10,7 @@ module.exports = (grunt) ->
   specs = 'test/js/spec/**/*.js'
   serverPort = 8000
   host = "http://localhost:#{serverPort}/"
-  helpers = 'bower_components/hp-autonomy-js-testing-utils/src/js/jasmine-custom-matcher.js'
+  helpers = 'node_modules/hp-autonomy-js-testing-utils/src/js/jasmine-custom-matcher.js'
 
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
@@ -26,9 +26,10 @@ module.exports = (grunt) ->
           port: serverPort
     jasmine:
       test:
+        version: '3.8.0' # https://github.com/gruntjs/grunt-contrib-jasmine/issues/339
         src: sourcePath
         options:
-          helpers: helpers
+#          helpers: helpers
           host: host
           keepRunner: true
           outfile: jasmineSpecRunner
