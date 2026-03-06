@@ -1,11 +1,11 @@
 {
   "name": "hp-autonomy-frontend-field-text",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "dependencies": {
     "pegjs": "opentext-idol/pegjs#0.10.0",
-    "requirejs": "2.3.7",
-    "requirejs-text": "2.0.15",
-    "underscore": "1.13.6"
+    "requirejs": "^2.3.7",
+    "requirejs-text": "^2.0.15",
+    "underscore": "^1.13.8"
   },
   "devDependencies": {
     "coffeelint": "^1.6.0",

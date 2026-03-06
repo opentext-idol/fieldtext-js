@@ -1,15 +1,17 @@
 {
   "name": "hp-autonomy-frontend-field-text",
+  "version": "1.8.0",
   "lockfileVersion": 3,
   "requires": true,
   "packages": {
     "": {
       "name": "hp-autonomy-frontend-field-text",
+      "version": "1.8.0",
       "dependencies": {
         "pegjs": "opentext-idol/pegjs#0.10.0",
-        "requirejs": "2.3.7",
-        "requirejs-text": "2.0.15",
-        "underscore": "1.13.6"
+        "requirejs": "^2.3.7",
+        "requirejs-text": "^2.0.15",
+        "underscore": "^1.13.8"
       },
       "devDependencies": {
         "coffeelint": "^1.6.0",
@@ -2232,6 +2234,13 @@
         "jquery": "3.7.1",
         "underscore": "1.13.6"
       }
+    },
+    "node_modules/hp-autonomy-js-testing-utils/node_modules/underscore": {
+      "version": "1.13.6",
+      "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.13.6.tgz",
+      "integrity": "sha512-+A5Sja4HP1M08MaXya7p5LvjuM7K6q/2EaC0+iovj/wOcMsTzMvDFbasi/oSapiwOlt252IqsKqPjCl7huKS0A==",
+      "dev": true,
+      "license": "MIT"
     },
     "node_modules/http-cache-semantics": {
       "version": "3.8.1",
@@ -4892,9 +4901,10 @@
       }
     },
     "node_modules/underscore": {
-      "version": "1.13.6",
-      "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.13.6.tgz",
-      "integrity": "sha512-+A5Sja4HP1M08MaXya7p5LvjuM7K6q/2EaC0+iovj/wOcMsTzMvDFbasi/oSapiwOlt252IqsKqPjCl7huKS0A=="
+      "version": "1.13.8",
+      "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.13.8.tgz",
+      "integrity": "sha512-DXtD3ZtEQzc7M8m4cXotyHR+FAS18C64asBYY5vqZexfYryNNnDc02W4hKg3rdQuqOYas1jkseX0+nZXjTXnvQ==",
+      "license": "MIT"
     },
     "node_modules/underscore.string": {
       "version": "3.3.6",
