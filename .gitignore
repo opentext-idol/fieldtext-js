@@ -7,3 +7,9 @@ node_modules/
 bower_components/
 .grunt
 spec-runner.html
+coverage-runner.html
+bin
+doc
+
+# Generated at install/prepare time from src/js/field-text.pegjs - see the "prepare" npm script.
+src/js/field-text-grammar.js

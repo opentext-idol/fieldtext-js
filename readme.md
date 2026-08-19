@@ -1,12 +1,9 @@
-# KeyWrapper
+# FieldText-JS
 
 ## Dependencies
 
-- Your project must define dependencies for the following in your require-config.js
+- Your project must define dependencies for the following:
     - [underscore] (http://underscorejs.org/)
-    - [text] (https://github.com/requirejs/text)
-    - [peg] (http://pegjs.org/)
-
 
 ## Usage
 
