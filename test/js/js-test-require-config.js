@@ -20,7 +20,6 @@ define(function() {
             'js-testing': 'node_modules/hp-autonomy-js-testing-utils/src/js',
             underscore: 'node_modules/underscore/underscore',
             text: 'node_modules/requirejs-text/text',
-            peg: 'node_modules/pegjs/peg-0.10.0',
 
             //dir
             test: 'test/js',
@@ -31,9 +30,6 @@ define(function() {
         shim: {
             underscore: {
                 exports: '_'
-            },
-            peg: {
-                exports: 'PEG'
             }
         },
         // the jasmine grunt plugin loads all files based on their paths on disk
