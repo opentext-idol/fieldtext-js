@@ -1,6 +1,6 @@
 {
   "name": "hp-autonomy-frontend-field-text",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "engines": {
     "node": ">=20"
   },
@@ -8,6 +8,7 @@
     "prepare": "pegjs --format commonjs -o src/js/field-text-grammar.js src/js/field-text.pegjs"
   },
   "dependencies": {
+    "pegjs": "^0.10.0",
     "underscore": "^1.13.8"
   },
   "devDependencies": {
@@ -19,7 +20,6 @@
     "grunt-contrib-connect": "^3.0.0",
     "grunt-contrib-jasmine": "^3.0.0",
     "grunt-template-jasmine-requirejs": "https://github.com/cloudchen/grunt-template-jasmine-requirejs#e5770cd8a75f88e5e09a5f2d4f389ec23bb2dad2",
-    "hp-autonomy-js-testing-utils": "opentext-idol/js-testing-utils#2.4.0",
-    "pegjs": "^0.10.0"
+    "hp-autonomy-js-testing-utils": "opentext-idol/js-testing-utils#2.4.0"
   }
 }
