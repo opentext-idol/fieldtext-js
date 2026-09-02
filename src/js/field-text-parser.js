@@ -134,7 +134,7 @@ var convert = function(node) {
     }
 };
 
-var module = {
+module.exports = {
     ExpressionNode: ExpressionNode,
     Null: {
         toString: function() {
@@ -168,6 +168,3 @@ _.extend(module, _.reduce(['AND', 'OR', 'XOR', 'BEFORE', 'AFTER'], function(meth
         return left ? left.NOT() : module.Null;
     }
 }));
-
-module.exports = module;
-
